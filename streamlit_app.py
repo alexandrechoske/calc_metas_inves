@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from unidecode import unidecode
+import streamlit_shadcn_ui as ui
 
 # Configurações da página
 st.set_page_config(layout="wide", page_title='Calculadora Meta Dividendos', initial_sidebar_state='collapsed')
@@ -81,28 +82,23 @@ def calcular_meta_dividendos(df, meta):
     df['qtde_cotas_meta'] = df['valor_aprox_meta'] / df['cotacao']
     return df
 
+pages = ui.tabs(options=['Intro', 'Calculadora'], default_value='Intro', key="pages")
+
 # Página inicial
-if st.button('Começar'):
+if pages == 'Intro':
     # Seção de filtros
-    st.header("Calculadora de Metas de Dividendos")
     col1, col2 = st.columns(2)
     with col1:
         st.write("Essa calculadora ajuda a calcular as metas de dividendos para investimentos em ações.")
         st.image('https://i.imgur.com/7G6f8Zv.png', caption='Imagem de fundo')
     with col2:
         st.markdown('Você pode usar essa ferramenta para calcular suas metas de dividendos e planificar seu investimento.')
-        
-    # Seção de botões
-    st.header("Ações")
-    st.button('Ações')
-    
-    st.header("Metas de Dividendos")
-    st.button('Metas de Dividendos')
 
 # Página de resultados
-else:
+elif pages == 'Calculadora':
     # Interface do Streamlit
     st.title("Simulação de Metas de Dividendos")
+    st.write("Abra a navegação lateral ( esquerda ) e insira os parâmetros")
 
     # Seção de filtros
     st.sidebar.header("Filtros")
